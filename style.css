@@ -263,6 +263,19 @@ footer {
     text-align: center;
     padding: 30px;
     color: #6b7280;
+    font-size: 14px;
+}
+
+footer a {
+    color: #111827;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: #2563eb;
+    text-decoration: underline;
 }
 
 
