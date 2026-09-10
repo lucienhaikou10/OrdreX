@@ -1,0 +1,317 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
+
+.header {
+    background: #111827;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    opacity: 0.8;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #111827;
+}
+
+textarea {
+    min-height: 220px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.info {
+    margin-bottom: 15px;
+    color: #6b7280;
+}
+
+.participant-info {
+    margin-top: 15px;
+    color: #4b5563;
+}
+
+.participant-info strong {
+    font-size: 20px;
+}
+
+.draw-section {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.draw-button {
+    border: none;
+    border-radius: 50px;
+    padding: 18px 40px;
+    background: #111827;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.draw-button:hover {
+    transform: scale(1.04);
+}
+
+.draw-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.animation-box {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.spinner {
+    font-size: 65px;
+    animation: rotate 0.6s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.result-card {
+    animation: appear 0.5s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status {
+    background: #ecfdf5;
+    color: #047857;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.draw-id {
+    margin-top: 8px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #f9fafb;
+}
+
+td:first-child {
+    font-weight: bold;
+    width: 100px;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.actions button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pdf-button {
+    background: #111827;
+    color: white;
+}
+
+.share-button {
+    background: #2563eb;
+    color: white;
+}
+
+.new-button {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #6b7280;
+}
+
+
+/* MODE CONSULTATION PARTAGEE */
+
+.shared-banner {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 15px;
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #1e40af;
+}
+
+.shared-banner p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.close-shared-button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    background: #1e40af;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.shared-mode .card,
+.shared-mode .draw-section {
+    display: none;
+}
+
+
+/* TELEPHONE */
+
+@media (max-width: 600px) {
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: 20px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .draw-button {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+
+    .shared-banner {
+        padding: 15px;
+    }
+}

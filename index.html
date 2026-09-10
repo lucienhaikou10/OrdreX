@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OrdreX — Tirage aléatoire pour tontines et groupes. Attribuez les positions en un clic.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+
+    <title>OrdreX — Tirage aléatoire</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bibliothèques PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" integrity="sha512-2/YdOMV+YNpanLCF5MdQwaoFRVbTmrJ4u4EpqS/USXAQNUDgI5uwYi6J98WVtJKcfe1AbgerygzDFToxAlOGEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+<header class="header">
+    <div>
+        <h1>OrdreX</h1>
+        <p>Attribuez les positions en un clic</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <div id="sharedBanner" class="shared-banner hidden">
+        <p>📋 Vous consultez un résultat partagé.</p>
+        <button id="closeSharedButton" class="close-shared-button">Effectuer un nouveau tirage</button>
+    </div>
+
+    <!-- INFORMATIONS -->
+    <section class="card">
+        <h2>1. Informations du tirage</h2>
+
+        <label for="tontineName">Nom du tirage</label>
+        <input
+            type="text"
+            id="tontineName"
+            maxlength="50"
+            placeholder="Ex : Tontine Janvier 2027"
+        >
+
+        <label for="amount">Montant (facultatif)</label>
+        <input
+            type="number"
+            id="amount"
+            min="1"
+            placeholder="Ex : 50000"
+        >
+    </section>
+
+
+    <!-- PARTICIPANTS -->
+    <section class="card">
+        <h2>2. Participants</h2>
+
+        <label for="participants">Liste des participants</label>
+        <p class="info">
+            Entrez un nom par ligne. L'ordre de saisie n'a aucune importance.
+        </p>
+
+        <textarea
+            id="participants"
+            placeholder="Exemple :
+
+David
+Koffi
+Aïcha
+Paul
+Marie
+Ibrahim"
+        ></textarea>
+
+        <div class="participant-info">
+            <strong id="participantCount">0</strong>
+            participant(s)
+        </div>
+    </section>
+
+
+    <!-- TIRAGE -->
+    <section class="draw-section">
+
+        <div id="animationBox" class="animation-box hidden">
+            <div class="spinner">↻</div>
+            <h2>Le tirage est en cours...</h2>
+            <p>OrdreX mélange les participants.</p>
+        </div>
+
+        <button id="drawButton" class="draw-button">
+            LANCER LE TIRAGE
+        </button>
+
+    </section>
+
+
+    <!-- RESULTATS -->
+    <section id="resultSection" class="card result-card hidden">
+
+        <div class="result-header">
+            <div>
+                <h2>Résultat du tirage</h2>
+                <p id="resultInfo"></p>
+                <p id="drawIdDisplay" class="draw-id"></p>
+            </div>
+
+            <span id="status" class="status">
+                Tirage terminé
+            </span>
+        </div>
+
+        <div class="table-container">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Participant</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultTable"></tbody>
+            </table>
+
+        </div>
+
+        <div class="actions">
+
+            <button id="pdfButton" class="pdf-button">
+                Exporter en PDF
+            </button>
+
+            <button id="shareButton" class="share-button">
+                Partager le résultat
+            </button>
+
+            <button id="newDrawButton" class="new-button">
+                Nouveau tirage
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 OrdreX — Attribution aléatoire</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
