@@ -265,7 +265,7 @@ function buildShareMessage(draw, shareUrl) {
     if (draw.amount) {
         const cleanAmount = Number(String(draw.amount).replace(/\s/g, ""));
         if (!isNaN(cleanAmount) && cleanAmount > 0) {
-            amountText = `\n💰 Montant : ${cleanAmount.toLocaleString("fr-FR")} ${CURRENCY}`;
+            amountText = `\nMontant : ${cleanAmount.toLocaleString("fr-FR")} ${CURRENCY}`;
         }
     }
 
@@ -280,11 +280,11 @@ function buildShareMessage(draw, shareUrl) {
         listText += `\n... et ${draw.results.length - 15} autre(s) participant(s)`;
     }
 
-    return `🎲 *OrdreX — Résultat du tirage*\n` +
-        `📋 *${draw.drawName}*${amountText}\n` +
-        `🆔 ID : ${draw.id}\n\n` +
+    return `*OrdreX — Résultat du tirage*\n` +
+        `*${draw.drawName}*${amountText}\n` +
+        `ID : ${draw.id}\n\n` +
         `*Ordre de passage :*\n${listText}\n\n` +
-        `🔗 *Consulter ou exporter en PDF :*\n${shareUrl}`;
+        `*Consulter ou exporter en PDF :*\n${shareUrl}`;
 }
 
 async function copyToClipboard(text) {
@@ -379,7 +379,7 @@ async function shareResult() {
     // 2. Sur ordinateur ou en fallback, copier le lien dans le presse-papier
     const copied = await copyToClipboard(shareUrl);
     if (copied) {
-        showToast("✅ Lien copié dans le presse-papier !");
+        showToast("Lien copié dans le presse-papier !");
     } else {
         prompt("Copiez ce lien pour partager le résultat :", shareUrl);
     }
@@ -387,7 +387,7 @@ async function shareResult() {
     // 3. Avertissement si exécution depuis un fichier local file:///
     if (window.location.protocol === "file:") {
         setTimeout(() => {
-            alert("💡 Note : Vous utilisez un fichier local. Pour que d'autres personnes puissent ouvrir ce lien, publiez le site sur Internet (ex: GitHub Pages).");
+            alert("Note : Vous utilisez un fichier local. Pour que d'autres personnes puissent ouvrir ce lien, publiez le site sur Internet (ex: Vercel, GitHub Pages).");
         }, 600);
     }
 }
