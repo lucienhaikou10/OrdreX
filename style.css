@@ -270,7 +270,7 @@ footer {
     cursor: pointer;
 }
 
-.shared-mode .card,
+.shared-mode .card:not(.result-card),
 .shared-mode .draw-section {
     display: none;
 }
