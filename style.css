@@ -229,9 +229,34 @@ td:first-child {
     color: white;
 }
 
+.whatsapp-button {
+    background: #16a34a;
+    color: white;
+}
+
+.whatsapp-button:hover {
+    background: #15803d;
+}
+
 .new-button {
     background: #e5e7eb;
     color: #111827;
+}
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111827;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 footer {

@@ -19,6 +19,7 @@ const resultInfo = document.getElementById("resultInfo");
 const drawIdDisplay = document.getElementById("drawIdDisplay");
 
 const pdfButton = document.getElementById("pdfButton");
+const whatsappButton = document.getElementById("whatsappButton");
 const shareButton = document.getElementById("shareButton");
 const newDrawButton = document.getElementById("newDrawButton");
 const closeSharedButton = document.getElementById("closeSharedButton");
@@ -236,8 +237,119 @@ function displayResults(results, drawName, drawId) {
 }
 
 /* ============================
+/* ============================
+   UTILITAIRES DE PARTAGE
+============================ */
+function getBaseUrl() {
+    if (window.location.protocol === "file:" || !window.location.origin || window.location.origin === "null") {
+        return window.location.href.split("#")[0].split("?")[0];
+    }
+    return `${window.location.origin}${window.location.pathname}`;
+}
+
+function buildShareUrl() {
+    if (!currentDraw) return "";
+    const shareData = {
+        id: currentDraw.id,
+        drawName: currentDraw.drawName,
+        amount: currentDraw.amount,
+        results: currentDraw.results,
+        date: currentDraw.date
+    };
+    const encodedData = encodeData(shareData);
+    return `${getBaseUrl()}#result=${encodedData}`;
+}
+
+function buildShareMessage(draw, shareUrl) {
+    let amountText = "";
+    if (draw.amount) {
+        const cleanAmount = Number(String(draw.amount).replace(/\s/g, ""));
+        if (!isNaN(cleanAmount) && cleanAmount > 0) {
+            amountText = `\n💰 Montant : ${cleanAmount.toLocaleString("fr-FR")} ${CURRENCY}`;
+        }
+    }
+
+    const showAll = draw.results.length <= 25;
+    const previewList = showAll ? draw.results : draw.results.slice(0, 15);
+
+    let listText = previewList
+        .map((name, i) => `${String(i + 1).padStart(2, "0")}. ${name}`)
+        .join("\n");
+
+    if (!showAll) {
+        listText += `\n... et ${draw.results.length - 15} autre(s) participant(s)`;
+    }
+
+    return `🎲 *OrdreX — Résultat du tirage*\n` +
+        `📋 *${draw.drawName}*${amountText}\n` +
+        `🆔 ID : ${draw.id}\n\n` +
+        `*Ordre de passage :*\n${listText}\n\n` +
+        `🔗 *Consulter ou exporter en PDF :*\n${shareUrl}`;
+}
+
+async function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch (e) {
+            console.warn("Clipboard API error", e);
+        }
+    }
+    try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.top = "-9999px";
+        textArea.style.left = "-9999px";
+        textArea.setAttribute("readonly", "");
+        document.body.appendChild(textArea);
+        textArea.select();
+        textArea.setSelectionRange(0, 99999);
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+        if (successful) return true;
+    } catch (e) {
+        console.warn("execCommand error", e);
+    }
+    return false;
+}
+
+function showToast(message) {
+    const existing = document.querySelector(".toast");
+    if (existing) existing.remove();
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+/* ============================
    PARTAGER LE RESULTAT
 ============================ */
+if (whatsappButton) {
+    whatsappButton.addEventListener("click", shareWhatsApp);
+}
+
+function shareWhatsApp() {
+    if (!currentDraw || finalResults.length === 0) {
+        alert("Aucun résultat à partager.");
+        return;
+    }
+
+    const shareUrl = buildShareUrl();
+    const message = buildShareMessage(currentDraw, shareUrl);
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, "_blank");
+}
+
 shareButton.addEventListener("click", shareResult);
 
 async function shareResult() {
@@ -246,29 +358,16 @@ async function shareResult() {
         return;
     }
 
-    /* On transforme le résultat en données encodées directement dans l'URL. */
-    const shareData = {
-        id: currentDraw.id,
-        drawName: currentDraw.drawName,
-        amount: currentDraw.amount,
-        results: currentDraw.results,
-        date: currentDraw.date
-    };
+    const shareUrl = buildShareUrl();
+    const shareMessage = buildShareMessage(currentDraw, shareUrl);
 
-    const encodedData = encodeData(shareData);
-    const shareUrl = `${window.location.origin}${window.location.pathname}#result=${encodedData}`;
-    const shareText = `Résultat du tirage "${currentDraw.drawName}" avec OrdreX.`;
-
-    if (shareUrl.length > 2000) {
-        alert("Attention : Le lien généré est très long et pourrait ne pas fonctionner sur tous les appareils.");
-    }
-
-    /* Partage natif du téléphone */
-    if (navigator.share) {
+    // 1. Sur mobile, essayer le partage natif (Web Share API)
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile && navigator.share) {
         try {
             await navigator.share({
-                title: "Résultat OrdreX",
-                text: shareText,
+                title: `Résultat OrdreX — ${currentDraw.drawName}`,
+                text: shareMessage,
                 url: shareUrl
             });
             return;
@@ -277,12 +376,19 @@ async function shareResult() {
         }
     }
 
-    /* Sinon, copie du lien */
-    try {
-        await navigator.clipboard.writeText(shareUrl);
-        alert("Lien du résultat copié !\n\nVous pouvez maintenant le partager.");
-    } catch (error) {
+    // 2. Sur ordinateur ou en fallback, copier le lien dans le presse-papier
+    const copied = await copyToClipboard(shareUrl);
+    if (copied) {
+        showToast("✅ Lien copié dans le presse-papier !");
+    } else {
         prompt("Copiez ce lien pour partager le résultat :", shareUrl);
+    }
+
+    // 3. Avertissement si exécution depuis un fichier local file:///
+    if (window.location.protocol === "file:") {
+        setTimeout(() => {
+            alert("💡 Note : Vous utilisez un fichier local. Pour que d'autres personnes puissent ouvrir ce lien, publiez le site sur Internet (ex: GitHub Pages).");
+        }, 600);
     }
 }
 
@@ -303,10 +409,13 @@ function encodeData(data) {
    DECODER LES DONNEES
 ============================ */
 function decodeData(encoded) {
+    if (!encoded || typeof encoded !== "string") return null;
     try {
-        const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
-        const padding = "=".repeat((4 - base64.length % 4) % 4);
-        const binary = atob(base64 + padding);
+        let clean = encoded.trim().replace(/\s+/g, "");
+        const base64 = clean.replace(/-/g, "+").replace(/_/g, "/");
+        const padLength = (4 - base64.length % 4) % 4;
+        if (padLength === 3) return null;
+        const binary = atob(base64 + "=".repeat(padLength));
         const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
         const json = new TextDecoder().decode(bytes);
         return JSON.parse(json);
@@ -319,13 +428,40 @@ function decodeData(encoded) {
 /* ============================
    CHARGER UN RESULTAT PARTAGE
 ============================ */
+function getSharedToken() {
+    // 1. Dans les paramètres d'URL (?result=...)
+    if (window.location.search) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const res = urlParams.get("result");
+        if (res) return decodeURIComponent(res).trim();
+    }
+
+    // 2. Dans le hash (#result=...)
+    if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        if (hash.startsWith("result=")) {
+            const token = hash.substring("result=".length).split("&")[0].split("?")[0];
+            if (token) return decodeURIComponent(token).trim();
+        }
+        const hashParams = new URLSearchParams(hash);
+        const res = hashParams.get("result");
+        if (res) return decodeURIComponent(res).trim();
+    }
+
+    // 3. Fallback regex sur toute l'URL
+    const match = window.location.href.match(/[#?&]result=([^&#\s]+)/);
+    if (match && match[1]) {
+        return decodeURIComponent(match[1]).trim();
+    }
+
+    return null;
+}
+
 function loadSharedResult() {
-    const hash = window.location.hash;
+    const token = getSharedToken();
+    if (!token) return false;
 
-    if (!hash.startsWith("#result=")) return false;
-
-    const encoded = hash.substring("#result=".length);
-    const rawData = decodeData(encoded);
+    const rawData = decodeData(token);
     const sharedDraw = sanitizeSharedData(rawData);
 
     if (!sharedDraw) {
@@ -452,8 +588,8 @@ function resetAll() {
     localStorage.removeItem(STORAGE_KEY);
 
     /* Nettoyer l'URL */
-    if (window.location.hash) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
+    if (window.location.hash || window.location.search) {
+        history.replaceState(null, "", window.location.pathname);
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -476,6 +612,13 @@ if (!sharedResultLoaded) {
     loadLastDraw();
 }
 
-window.addEventListener("hashchange", () => {
-    loadSharedResult();
-});
+function handleUrlChange() {
+    const loaded = loadSharedResult();
+    if (!loaded) {
+        document.body.classList.remove("shared-mode");
+        if (sharedBanner) sharedBanner.classList.add("hidden");
+    }
+}
+
+window.addEventListener("hashchange", handleUrlChange);
+window.addEventListener("popstate", handleUrlChange);
