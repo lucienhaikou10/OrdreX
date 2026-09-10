@@ -1,4 +1,4 @@
-# OrdreX 🎲
+# OrdreX
 
 > **Attribuez les positions en un clic — Simple, rapide et transparent.**
 
@@ -8,29 +8,29 @@ Idéal pour les **tontines**, les groupes d'épargne, les équipes de travail, l
 
 ---
 
-## 🚀 Démonstration en ligne
+## Démonstration en ligne
 
-- **GitHub Pages** : [https://lucienhaikou10.github.io/OrdreX/](https://lucienhaikou10.github.io/OrdreX/)
+- **Application en ligne** : [https://ordrex-self.vercel.app/](https://ordrex-self.vercel.app/)
 - **Dépôt GitHub** : [https://github.com/lucienhaikou10/OrdreX](https://github.com/lucienhaikou10/OrdreX)
 
 ---
 
-## 🎯 Pourquoi OrdreX ?
+## Pourquoi OrdreX ?
 
 Lorsqu'un groupe doit déterminer l'ordre de ses membres (ex : ordre de ramassage d'une tontine), les tirages manuels sur bouts de papier sont longs, fastidieux et souvent sujets à contestation.
 
 **OrdreX résout ce problème en offrant :**
-- ⚡ **Simplicité** : Entrez les noms, cliquez, le résultat est instantané.
-- 🎲 **Équité absolue** : Algorithme de mélange aléatoire standard **Fisher-Yates** (tirage équiprobable et non biaisé).
-- 🔒 **Transparence & Traçabilité** : Chaque tirage dispose d'un identifiant unique (ex: `ORDX-2026-A7K92P`).
-- 📱 **Partage WhatsApp instantané** : Envoi du récapitulatif complet et du lien en 1 clic dans vos groupes.
-- 🔗 **Lien de vérification en ligne** : Les membres ouvrent le lien et consultent le tableau officiel en mode consultation.
-- 📄 **Export PDF professionnel** : Téléchargez une fiche officielle prête à imprimer ou archiver.
-- 💾 **Sauvegarde locale automatique** : Aucun risque de perdre le tirage en cas de rafraîchissement accidentel.
+- **Simplicité** : Entrez les noms, cliquez, le résultat est instantané.
+- **Équité absolue** : Algorithme de mélange aléatoire standard **Fisher-Yates** (tirage équiprobable et non biaisé).
+- **Transparence & Traçabilité** : Chaque tirage dispose d'un identifiant unique (ex: `ORDX-2026-A7K92P`).
+- **Partage WhatsApp instantané** : Envoi du récapitulatif complet et du lien en 1 clic dans vos groupes.
+- **Lien de vérification en ligne** : Les membres ouvrent le lien et consultent le tableau officiel en mode consultation.
+- **Export PDF professionnel** : Téléchargez une fiche officielle prête à imprimer ou archiver.
+- **Sauvegarde locale automatique** : Aucun risque de perdre le tirage en cas de rafraîchissement accidentel.
 
 ---
 
-## 🛠️ Fonctionnalités détaillées
+## Fonctionnalités détaillées
 
 ### 1. Saisie intuitive & validations
 - **Nom du tirage** : Personnalisez l'intitulé (ex: *Tontine Janvier 2027*).
@@ -58,25 +58,25 @@ Chaque membre reçoit un numéro d'ordre officiel :
 ### 4. Partage multicanal & WhatsApp
 - **Bouton « Partager sur WhatsApp »** : Rédige automatiquement un message propre et lisible pour vos groupes WhatsApp :
   ```text
-  🎲 OrdreX — Résultat du tirage
-  📋 Tontine Janvier 2027
-  💰 Montant : 50 000 FCFA
-  🆔 ID : ORDX-2026-A7K92P
+  *OrdreX — Résultat du tirage*
+  *Tontine Janvier 2027*
+  Montant : 50 000 FCFA
+  ID : ORDX-2026-A7K92P
 
-  Ordre de passage :
+  *Ordre de passage :*
   01. Marie
   02. David
   03. Ibrahim
   ...
 
-  🔗 Consulter ou exporter en PDF :
+  *Consulter ou exporter en PDF :*
   https://...#result=...
   ```
 - **Bouton « Copier / Partager »** : Partage natif sur mobile (`Web Share API`) ou copie sécurisée dans le presse-papier avec notification toast.
 
 ### 5. Mode consultation partagée
 Lorsqu'un membre ouvre un lien partagé :
-- Une bannière bleue indique qu'il s'agit d'un **résultat partagé officiel**.
+- Une bannière indique qu'il s'agit d'un **résultat partagé officiel**.
 - Les formulaires de modification sont masqués pour éviter toute altération.
 - Le destinataire peut consulter les résultats, télécharger le PDF ou démarrer un nouveau tirage.
 
@@ -93,15 +93,15 @@ Le dernier tirage reste conservé dans le navigateur sans nécessiter de serveur
 
 ---
 
-## 📱 Responsive & Mobile-First
+## Responsive & Mobile-First
 
 OrdreX est optimisé pour tous les formats :
-- 📱 **Smartphones** (iOS & Android) — boutons pleine largeur, taille de police anti-zoom sur iPhone.
-- 💻 **Tablettes & Ordinateurs** — disposition aérée et centrée.
+- **Smartphones** (iOS & Android) — boutons pleine largeur, taille de police anti-zoom sur iPhone.
+- **Tablettes & Ordinateurs** — disposition aérée et centrée.
 
 ---
 
-## 🧰 Technologies utilisées
+## Technologies utilisées
 
 - **HTML5** (Structure sémantique, labels accessibles, balises SEO & Open Graph)
 - **CSS3** (Flexbox, variables, animations fluides, media queries responsive)
@@ -111,20 +111,20 @@ OrdreX est optimisé pour tous les formats :
 
 ---
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```text
 OrdreX/
 │
 ├── index.html     # Structure HTML accessible, SEO et conteneurs
 ├── style.css      # Design moderne, responsive et composants (toast, bannière)
-├── script.js     # Logique métier, Fisher-Yates, sanitisation, partage & PDF
+├── script.js      # Logique métier, Fisher-Yates, sanitisation, partage & PDF
 └── README.md      # Documentation du projet
 ```
 
 ---
 
-## 💻 Installation locale
+## Installation locale
 
 Aucun outil de build (Node/Webpack) n'est nécessaire. Clonez et ouvrez simplement dans votre navigateur :
 
@@ -137,14 +137,14 @@ Puis double-cliquez sur `index.html`.
 
 ---
 
-## 👤 Auteur
+## Auteur
 
 Conçu et développé par **Lucien HAIKOU**  
-- 💼 **LinkedIn** : [linkedin.com/in/lucienhaikou10](https://www.linkedin.com/in/lucienhaikou10)
-- 🐙 **GitHub** : [@lucienhaikou10](https://github.com/lucienhaikou10)
+- **LinkedIn** : [linkedin.com/in/lucienhaikou10](https://www.linkedin.com/in/lucienhaikou10)
+- **GitHub** : [@lucienhaikou10](https://github.com/lucienhaikou10)
 
 ---
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence libre. Vous êtes libre de l'utiliser pour vos tontines, groupes associatifs ou projets personnels.
