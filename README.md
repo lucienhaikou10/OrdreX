@@ -10,7 +10,7 @@ Idéal pour les **tontines**, les groupes d'épargne, les équipes de travail, l
 
 ## Démonstration en ligne
 
-- **Application en ligne** : [https://ordrex-self.vercel.app/](https://ordrex-self.vercel.app/)
+- **Application en ligne** : [https://ordre-x.vercel.app/](https://ordre-x.vercel.app/)
 - **Dépôt GitHub** : [https://github.com/lucienhaikou10/OrdreX](https://github.com/lucienhaikou10/OrdreX)
 
 ---

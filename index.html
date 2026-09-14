@@ -27,129 +27,199 @@
 <main class="container">
 
     <div id="sharedBanner" class="shared-banner hidden">
-        <p>Vous consultez un résultat partagé.</p>
-        <button id="closeSharedButton" class="close-shared-button">Effectuer un nouveau tirage</button>
+        <p>Vous consultez un résultat officiel partagé.</p>
+        <button id="closeSharedButton" class="close-shared-button">Créer un nouveau tirage</button>
     </div>
 
-    <!-- INFORMATIONS -->
-    <section class="card">
-        <h2>1. Informations du tirage</h2>
+    <!-- ETAPE 1 : CONFIGURATION & SAISIE -->
+    <section id="stepSetup" class="step-section">
+        
+        <!-- INFORMATIONS DU TIRAGE -->
+        <div class="card">
+            <h2>1. Informations du tirage</h2>
 
-        <label for="tontineName">Nom du tirage</label>
-        <input
-            type="text"
-            id="tontineName"
-            maxlength="50"
-            placeholder="Ex : Tontine Janvier 2027"
-        >
+            <label for="tontineName">Nom du tirage</label>
+            <input
+                type="text"
+                id="tontineName"
+                maxlength="50"
+                placeholder="Ex : Tontine Janvier 2027"
+            >
 
-        <label for="amount">Montant (facultatif)</label>
-        <input
-            type="number"
-            id="amount"
-            min="1"
-            placeholder="Ex : 50000"
-        >
-    </section>
-
-
-    <!-- PARTICIPANTS -->
-    <section class="card">
-        <h2>2. Participants</h2>
-
-        <label for="participants">Liste des participants</label>
-        <p class="info">
-            Entrez un nom par ligne. L'ordre de saisie n'a aucune importance.
-        </p>
-
-        <textarea
-            id="participants"
-            placeholder="Exemple :
-
-David
-Koffi
-Aïcha
-Paul
-Marie
-Ibrahim"
-        ></textarea>
-
-        <div class="participant-info">
-            <strong id="participantCount">0</strong>
-            participant(s)
-        </div>
-    </section>
-
-
-    <!-- TIRAGE -->
-    <section class="draw-section">
-
-        <div id="animationBox" class="animation-box hidden">
-            <div class="spinner">↻</div>
-            <h2>Le tirage est en cours...</h2>
-            <p>OrdreX mélange les participants.</p>
+            <label for="amount">Montant de la cotisation (facultatif)</label>
+            <input
+                type="text"
+                id="amount"
+                maxlength="20"
+                placeholder="Ex : 50000"
+            >
         </div>
 
-        <button id="drawButton" class="draw-button">
-            LANCER LE TIRAGE
-        </button>
-
-    </section>
-
-
-    <!-- RESULTATS -->
-    <section id="resultSection" class="card result-card hidden">
-
-        <div class="result-header">
-            <div>
-                <h2>Résultat du tirage</h2>
-                <p id="resultInfo"></p>
-                <p id="drawIdDisplay" class="draw-id"></p>
+        <!-- PARTICIPANTS -->
+        <div class="card">
+            <div class="card-header-row">
+                <h2>2. Participants</h2>
+                <div class="quick-actions">
+                    <button type="button" id="clearParticipantsButton" class="text-button text-button-danger">Effacer</button>
+                </div>
             </div>
 
-            <span id="status" class="status">
-                Tirage terminé
-            </span>
+            <label for="participants">Liste des participants</label>
+            <p class="info">
+                Saisissez les noms (un par ligne ou séparés par des virgules). L'ordre initial n'a aucune importance.
+            </p>
+
+            <textarea
+                id="participants"
+                placeholder="Exemple :&#10;&#10;David&#10;Koffi&#10;Aïcha&#10;Paul&#10;Marie&#10;Ibrahim"
+            ></textarea>
+
+            <div class="participant-count-bar">
+                <span class="count-badge"><strong id="participantCount">0</strong> participant(s) détecté(s)</span>
+                <span id="participantMinNote" class="min-note">Minimum 2 requis</span>
+            </div>
+
+            <div id="duplicateAlert" class="alert-box alert-warning hidden">
+                <div id="duplicateMessage"></div>
+                <button type="button" id="fixDuplicatesButton" class="small-button">Différencier automatiquement</button>
+            </div>
         </div>
 
-        <div class="table-container">
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>N°</th>
-                        <th>Participant</th>
-                    </tr>
-                </thead>
-
-                <tbody id="resultTable"></tbody>
-            </table>
-
+        <!-- BOUTON LANCER -->
+        <div class="draw-action-container">
+            <button id="drawButton" class="draw-button">
+                LANCER LE TIRAGE AU SORT
+            </button>
         </div>
 
-        <div class="actions">
+    </section>
 
-            <button id="pdfButton" class="pdf-button">
-                Exporter en PDF
-            </button>
+    <!-- ETAPE 2 : ANIMATION DU TIRAGE -->
+    <section id="stepDrawing" class="step-section hidden">
+        <div class="card animation-card">
+            <div class="pulse-icon">🎲</div>
+            <h2 id="drawAnimationTitle">Tirage au sort en cours...</h2>
+            <p class="animation-subtitle">OrdreX mélange aléatoirement les participants</p>
+            
+            <div class="roulette-box">
+                <span class="roulette-label">Mélange en direct</span>
+                <div id="rollingParticipant" class="rolling-name">...</div>
+            </div>
 
-            <button id="whatsappButton" class="whatsapp-button">
-                Partager sur WhatsApp
-            </button>
+            <div class="draw-progress-bar">
+                <div id="drawProgressFill" class="draw-progress-fill"></div>
+            </div>
+        </div>
+    </section>
 
-            <button id="shareButton" class="share-button">
-                Copier / Partager
-            </button>
+    <!-- ETAPE 3 : RESULTATS DU TIRAGE -->
+    <section id="stepResult" class="step-section hidden">
+        
+        <div class="card result-card">
+            <div class="result-header">
+                <div>
+                    <h2>Résultat Officiel du Tirage</h2>
+                    <p id="resultInfo" class="result-subtitle"></p>
+                    <p id="drawIdDisplay" class="draw-id"></p>
+                </div>
 
-            <button id="newDrawButton" class="new-button">
-                Nouveau tirage
-            </button>
+                <span id="status" class="status-badge">
+                    Tirage validé
+                </span>
+            </div>
 
+            <!-- TABLEAU COMPLET -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-rank">Position</th>
+                            <th>Participant</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultTable"></tbody>
+                </table>
+            </div>
+
+            <!-- BOUTONS D'ACTION -->
+            <div class="actions-grid">
+                <button id="pdfButton" class="action-btn pdf-btn">
+                    Exporter en PDF
+                </button>
+
+                <button id="shareButton" class="action-btn share-btn">
+                    Partager
+                </button>
+
+                <button id="newDrawButton" class="action-btn new-btn">
+                    Nouveau tirage
+                </button>
+            </div>
         </div>
 
     </section>
 
 </main>
+
+<!-- MODAL DE PARTAGE -->
+<div id="shareModal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Partager le résultat</h3>
+            <button type="button" id="closeShareModal" class="modal-close" aria-label="Fermer">✕</button>
+        </div>
+        <p class="modal-desc">Partagez l'ordre officiel du tirage sur vos réseaux ou copiez le lien :</p>
+        
+        <!-- LOGOS DES RESEAUX SOCIAUX -->
+        <div class="social-networks-grid">
+            <button type="button" id="modalWhatsappBtn" class="social-network-card social-whatsapp" title="Partager sur WhatsApp">
+                <div class="social-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.97.53 1.954.819 2.796.819 3.183 0 5.768-2.587 5.769-5.766.001-3.182-2.585-5.77-5.769-5.77zm3.397 8.163c-.144.405-.837.774-1.17.822-.312.043-.687.067-2.18-.553-1.805-.749-2.955-2.587-3.045-2.707-.089-.12-1.282-1.706-1.282-3.254 0-1.549.807-2.311 1.093-2.624.286-.312.624-.391.832-.391.208 0 .416.002.598.012.193.01.452-.073.707.541.26.624.884 2.158.962 2.314.078.156.13.338.026.546-.104.208-.156.338-.312.52-.156.182-.328.406-.468.546-.156.156-.319.325-.137.637.182.312.809 1.334 1.734 2.158 1.189 1.059 2.191 1.387 2.503 1.543.312.156.494.13.676-.078.182-.208.78-.91 1.014-1.222.234-.312.468-.26.78-.144.312.116 1.977.933 2.315 1.102.338.169.563.252.646.395.083.143.083.829-.061 1.234z"/>
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.98-1.306A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.003c-1.745 0-3.37-.502-4.747-1.366l-.34-.213-2.959.776.79-2.884-.233-.371A7.954 7.954 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8.003-8 8.003z"/>
+                    </svg>
+                </div>
+                <span class="social-label">WhatsApp</span>
+            </button>
+
+            <button type="button" id="modalFacebookBtn" class="social-network-card social-facebook" title="Partager sur Facebook">
+                <div class="social-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </div>
+                <span class="social-label">Facebook</span>
+            </button>
+
+            <button type="button" id="modalLinkedinBtn" class="social-network-card social-linkedin" title="Partager sur LinkedIn">
+                <div class="social-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2z"/>
+                    </svg>
+                </div>
+                <span class="social-label">LinkedIn</span>
+            </button>
+        </div>
+
+        <button type="button" id="modalNativeShareBtn" class="modal-btn modal-native-btn hidden">
+            Autres options de partage...
+        </button>
+
+        <div class="modal-link-box">
+            <label for="shareUrlInput">Ou copier le lien officiel :</label>
+            <div class="copy-input-group">
+                <input type="text" id="shareUrlInput" readonly>
+                <button type="button" id="modalCopyBtn" class="copy-btn">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copier
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer>
     <p>© 2026 OrdreX — Conçu par <a href="https://www.linkedin.com/in/lucienhaikou10" target="_blank" rel="noopener noreferrer">Lucien HAIKOU</a></p>
