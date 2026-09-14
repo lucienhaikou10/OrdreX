@@ -1,0 +1,5 @@
+# robots.txt - OrdreX
+User-agent: *
+Allow: /
+
+Sitemap: https://ordre-x.vercel.app/sitemap.xml

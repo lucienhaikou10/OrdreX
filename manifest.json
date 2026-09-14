@@ -1,0 +1,16 @@
+{
+  "name": "OrdreX — Tirage au sort de tontine",
+  "short_name": "OrdreX",
+  "description": "Tirage au sort aléatoire et attribution d'ordre de passage pour tontines, groupes et réunions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}
