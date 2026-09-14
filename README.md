@@ -23,7 +23,7 @@ Lorsqu'un groupe doit déterminer l'ordre de ses membres (ex : ordre de ramassag
 - **Simplicité** : Entrez les noms, cliquez, le résultat est instantané.
 - **Équité absolue** : Algorithme de mélange aléatoire standard **Fisher-Yates** (tirage équiprobable et non biaisé).
 - **Transparence & Traçabilité** : Chaque tirage dispose d'un identifiant unique (ex: `ORDX-2026-A7K92P`).
-- **Partage WhatsApp instantané** : Envoi du récapitulatif complet et du lien en 1 clic dans vos groupes.
+- **Partage WhatsApp & Réseaux** : Envoi du récapitulatif complet et du lien officiel en 1 clic dans vos groupes.
 - **Lien de vérification en ligne** : Les membres ouvrent le lien et consultent le tableau officiel en mode consultation.
 - **Export PDF professionnel** : Téléchargez une fiche officielle prête à imprimer ou archiver.
 - **Sauvegarde locale automatique** : Aucun risque de perdre le tirage en cas de rafraîchissement accidentel.
@@ -55,24 +55,27 @@ Chaque membre reçoit un numéro d'ordre officiel :
 | **05** | Paul |
 | **06** | Koffi |
 
-### 4. Partage multicanal & WhatsApp
-- **Bouton « Partager sur WhatsApp »** : Rédige automatiquement un message propre et lisible pour vos groupes WhatsApp :
-  ```text
-  *OrdreX — Résultat du tirage*
-  *Tontine Janvier 2027*
-  Montant : 50 000 FCFA
-  ID : ORDX-2026-A7K92P
+### 4. Partage multicanal & Réseaux sociaux
+- **Bouton unique « Partager »** : Ouvre une fenêtre modale moderne permettant de diffuser les résultats facilement :
+  - **WhatsApp** : Rédige automatiquement un message formaté et clair pour vos groupes :
+    ```text
+    *OrdreX — Résultat officiel du tirage*
+    *Tontine Janvier 2027*
+    Montant : 50 000 FCFA
+    ID : ORDX-2026-A7K92P
 
-  *Ordre de passage :*
-  01. Marie
-  02. David
-  03. Ibrahim
-  ...
+    *Ordre de passage :*
+    01. Marie
+    02. David
+    03. Ibrahim
+    ...
 
-  *Consulter ou exporter en PDF :*
-  https://...#result=...
-  ```
-- **Bouton « Copier / Partager »** : Partage natif sur mobile (`Web Share API`) ou copie sécurisée dans le presse-papier avec notification toast.
+    *Consulter ou exporter en PDF :*
+    https://ordre-x.vercel.app/?result=...
+    ```
+  - **Facebook** : Partage direct du résultat officiel sur Facebook en un clic.
+  - **LinkedIn** : Publication du tirage sur le réseau professionnel.
+  - **Copie du lien direct** : Champ d'URL officielle avec bouton « Copier » et notification toast de confirmation.
 
 ### 5. Mode consultation partagée
 Lorsqu'un membre ouvre un lien partagé :
